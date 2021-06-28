@@ -10,14 +10,19 @@ app.use(express.static('server/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+// setup env
+require('dotenv').config();
+
+// create transporter
 let transporter = nodemailer.createTransport({
     service: 'outlook',
     auth: {
-        user: 'minbrew@outlook.com',
-        pass: 'Virhurr22$'
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
+// set mail options
 let mailOptions = {
     from: 'minbrew@outlook.com',
     to: 'terry.okeefe87@gmail.com',
@@ -25,6 +30,8 @@ let mailOptions = {
     text: 'Testing nodemailer.'
 };
 
+// send mail options
+// display errors or email was sent
 transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
         console.log(error);
